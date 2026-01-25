@@ -27,7 +27,7 @@ public class HeaderContainer : BaseComponent
     }
 
     /// <summary>
-    /// Clears all items from the basket.
+    /// Gets the current basket count.
     /// </summary>
     /// <returns>
     /// The current basket count.
