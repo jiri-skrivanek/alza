@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using UI.Template.Components;
 using UI.Template.Components.Containers;
+using UI.Template.Framework.Extensions;
 
 namespace UI.Template.Pages;
 
@@ -10,24 +11,24 @@ public class HomePage() : BaseEshopPage("/")
     private readonly ProductGridContainer _productsGrid = new ProductGridContainer(By.XPath("//*[@class='products-grid']"));
 
     /// <summary>
-    /// Adds the first product from a specific category to the basket.
+    /// Adds the first product from a specific category to the basket and waits for basket updated.
+    /// At least one product in category is expected otherwise it fails on assertion error.
     /// </summary>
     /// <param name="category">The name of the category.</param>
-    /// <returns>True if the product was added to the basket, false otherwise.</returns>
-    public bool AddToBasketFirstProductFromCategory(string category)
+    /// <exception cref="WebDriverTimeoutException">
+    /// Thrown when the basket is not updated.
+    public void AddToBasketFirstProductFromCategory(string category)
     {
         int basketCountBefore = Header.GetBasketCount();
 
         _categories.SelectCategory(category);
         Dictionary<string, ProductCard> productCards = _productsGrid.GetProductCards();
-        if (productCards.Count == 0)
-        {
-            return false;
-        }
+        Assert.That(productCards.Count, Is.GreaterThan(0), $"No product found in {category} category.");
 
         productCards.First().Value.AddToBasket();
 
-        return Header.GetBasketCount() == basketCountBefore + 1;
+        Wait.SetTimeoutMessage($"Basket should have '{basketCountBefore + 1}' items.")
+            .Until(_ => Header.GetBasketCount() == basketCountBefore + 1);
     }
 
     /// <summary>

@@ -10,8 +10,6 @@ public class ExampleTest : BaseTest
     {
         HomePage homePage = new HomePage();
         homePage.Open();
-        bool addedToBasket = homePage.AddToBasketFirstProductFromCategory("Electronics");
-
-        Assert.That(addedToBasket, Is.True, "Product was not added to the basket.");
+        homePage.AddToBasketFirstProductFromCategory("Electronics");
     }
 }
