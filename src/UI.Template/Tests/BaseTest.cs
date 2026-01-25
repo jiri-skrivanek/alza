@@ -79,6 +79,7 @@ public abstract class BaseTest : IBase
             {
                 Globals.Logger.LogInformation($"Trying to quit WebDriver session '{WebDriver.GetSessionId()}'");
                 Globals.WebDriver?.Quit();
+                Globals.IsLogged = false;
                 Globals.ListOfInitializedWebdrivers.Remove(Globals.WebDriverKey);
             }
             catch (Exception e)
