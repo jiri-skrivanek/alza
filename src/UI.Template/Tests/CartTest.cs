@@ -21,7 +21,7 @@ public class CartTest : BaseTest
 
         //** STEP 4 ***/
         productDetail.ProductInfoForm.AddToCart();
-        Assert.That(productDetail.Header.GetBasketCount(), Is.EqualTo(1), "Basket count is not 1. Check Add to Cart functionality.");
+        productDetail.Header.WaitBasketCount(1);
 
         //** STEP 5 ***/
         productDetail.Header.OpenBasketContainer();

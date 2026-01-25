@@ -45,6 +45,18 @@ public class HeaderContainer : BaseComponent
     }
 
     /// <summary>
+    /// Waits for expected count of items in the basket.
+    /// </summary>
+    /// <exception cref="WebDriverTimeoutException">
+    /// Thrown when the basket count is not equal to expected count in time.
+    public void WaitBasketCount(uint expectedCount)
+    {
+        Logger.LogInformation($"Waiting for the basket count to be equal to {expectedCount}.");
+        Wait.SetTimeoutMessage($"Basket should have '{expectedCount}' items.")
+            .Until(_ => GetBasketCount() == expectedCount);
+    }
+
+    /// <summary>
     /// Hide the basket container.
     /// </summary>
     public void CloseBasketContainer()
