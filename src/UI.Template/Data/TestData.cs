@@ -25,4 +25,23 @@ public static class TestData
         ProductStock = 5,
         ProductImage = "Camera 2"
     };
+
+    public static TestProduct AdminTestProductDefault { get; } = new TestProduct
+    {
+        ProductCategory = "Cameras",
+        ProductName = "DSLR Camera X200",
+        ProductPrice = 700
+    };
+
+    public static TestCustomer AdminTestCustomer { get; } = new TestCustomer
+    {
+        FirstName = "Joe",
+        LastName = "Doe",
+        Street = "Pink 1",
+        City = "Newtown",
+        ZipCode = "12345",
+        Email = "joe.doe@a.b.c",
+        PhoneNumber = "123456789",
+        PaymentMethod = "PayPal"
+    };
 }
