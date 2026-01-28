@@ -10,5 +10,5 @@
 
 # TODO
 
-1. Need to update test when the description field is no not required (bug #12345)
-2. Need to use TestData.AdminTestProduct when it is clarified why only default products can be bought (bug #12346)
+1. Need to update test when the description field is no not required ([bug #7](https://github.com/jiri-skrivanek/alza/issues/7))
+2. Need to use TestData.AdminTestProduct when it is clarified why only default products can be bought ([bug #8](https://github.com/jiri-skrivanek/alza/issues/8))
