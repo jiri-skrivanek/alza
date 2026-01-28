@@ -26,7 +26,7 @@ public class AdminTest : BaseTest
         editProductContainer.SetPrice(TestData.AdminTestProduct.ProductPrice);
         editProductContainer.SetStock(TestData.AdminTestProduct.ProductStock);
         editProductContainer.SelectImage(TestData.AdminTestProduct.ProductImage);
-        // TODO - can be removed when description is not required (bug #12345)
+        // TODO - can be removed when description is not required (https://github.com/jiri-skrivanek/alza/issues/7)
         editProductContainer.SetDescription("Dummy");
         // save
         editProductContainer.SaveChanges();
@@ -50,7 +50,7 @@ public class AdminTest : BaseTest
         homePage.Open();
         homePage.WaitForReady();
         // add product to cart
-        // TODO - use TestData.AdminTestProduct when it is clarified why only default products can be bought (bug #12346)
+        // TODO - use TestData.AdminTestProduct when it is clarified why only default products can be bought (https://github.com/jiri-skrivanek/alza/issues/8)
         // TestProduct testProduct = TestData.AdminTestProduct;
         TestProduct testProduct = TestData.AdminTestProductDefault;
         homePage.AddToBasketProductFromCategory(testProduct.ProductCategory, testProduct.ProductName);
