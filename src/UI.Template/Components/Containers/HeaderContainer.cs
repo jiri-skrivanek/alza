@@ -12,6 +12,7 @@ public class HeaderContainer : BaseComponent
     private readonly Simple BasketContainer = new(By.XPath("//div[@class='cart-panel']"));
     private readonly Button ClearBasketButton = new(By.XPath("//button[@class='clear-cart']"));
     private readonly Button CloseBasketButton = new(By.XPath("//button[@class='close-cart']"));
+    private readonly Button CheckoutButton = new(By.XPath("//button[@class='checkout-button']"));
     private readonly Simple Title = new(By.XPath("//h1[@class='shop-title']"));
 
     /// <summary>
@@ -129,5 +130,15 @@ public class HeaderContainer : BaseComponent
     {
         WebDriver.WaitForUrlChanged(() => Title.Click());
         return new AdminPage();
+    }
+
+    /// <summary>
+    /// Click the Checkout button in basket container.
+    /// </summary>
+    /// <returns>The Checkout page</returns>
+    public CheckoutPage Checkout()
+    {
+        CheckoutButton.Click();
+        return new CheckoutPage();
     }
 }

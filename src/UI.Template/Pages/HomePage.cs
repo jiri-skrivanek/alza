@@ -19,16 +19,7 @@ public class HomePage() : BaseEshopPage("/")
     /// Thrown when the basket is not updated.
     public void AddToBasketFirstProductFromCategory(string category)
     {
-        int basketCountBefore = Header.GetBasketCount();
-
-        _categories.SelectCategory(category);
-        Dictionary<string, ProductCard> productCards = _productsGrid.GetProductCards();
-        Assert.That(productCards.Count, Is.GreaterThan(0), $"No product found in {category} category.");
-
-        productCards.First().Value.AddToBasket();
-
-        Wait.SetTimeoutMessage($"Basket should have '{basketCountBefore + 1}' items.")
-            .Until(_ => Header.GetBasketCount() == basketCountBefore + 1);
+        AddToBasketProductFromCategory(category);
     }
 
     /// <summary>
@@ -40,14 +31,7 @@ public class HomePage() : BaseEshopPage("/")
     public ProductDetailPage OpenProductByNameFromCategory(string category, string product)
     {
         _categories.SelectCategory(category);
-        Dictionary<string, ProductCard> productCards = _productsGrid.GetProductCards();
-
-        if (!productCards.TryGetValue(product, out ProductCard? value))
-        {
-            throw new NoSuchElementException("Product \"" + product + "\" not found in category \"" + category + "\".");
-        }
-
-        return value.OpenProductDetail();
+        return GetProductCard(product).OpenProductDetail();
     }
 
     /// <summary>
@@ -77,5 +61,45 @@ public class HomePage() : BaseEshopPage("/")
     public string GetCurrentCategory()
     {
         return _categories.GetCurrentCategory();
+    }
+
+    /// Adds the product from a specific category to the basket and waits for basket updated.
+    /// </summary>
+    /// <param name="category">The name of the category.</param>
+    /// <param name="product">The name of the product.</param>
+    /// <exception cref="WebDriverTimeoutException">
+    /// Thrown when the basket is not updated.
+    public void AddToBasketProductFromCategory(string category, string product = "")
+    {
+        int basketCountBefore = Header.GetBasketCount();
+        _categories.SelectCategory(category);
+        GetProductCard(product).AddToBasket();
+
+        Wait.SetTimeoutMessage($"Basket should have '{basketCountBefore + 1}' items.")
+            .Until(_ => Header.GetBasketCount() == basketCountBefore + 1);
+    }
+
+    /// <summary>
+    /// Returns a product card by its name on the current category.
+    /// </summary>
+    /// <param name="productName">The name of the product.</param>
+    /// <returns>Product card</returns>
+    /// <exception cref="NoSuchElementException">Thrown when the product not found.</exception>
+    private ProductCard GetProductCard(string productName = "")
+    {
+        Dictionary<string, ProductCard> productCards = _productsGrid.GetProductCards();
+
+        if (string.IsNullOrEmpty(productName))
+        {
+            return productCards.First().Value;
+        }
+        else
+        {
+            if (!productCards.TryGetValue(productName, out ProductCard? productCard))
+            {
+                throw new NoSuchElementException("Product \"" + productName + "\" not found.");
+            }
+            return productCard;
+        }
     }
 }
